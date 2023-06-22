@@ -57,6 +57,7 @@ REDS4 benchmark with fewer parameters._
 - [PyTorch](https://pytorch.org/) (NVIDIA GPU + [CUDA](https://developer.nvidia.com/cuda-downloads))
     
     Trained on PyTorch 1.12.1 (>= 1.7) CUDA 10.2
+  
     Run in ./
     ```bash
     pip install -r requirements.txt
