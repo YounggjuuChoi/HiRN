@@ -93,9 +93,9 @@ We used [REDS](https://openaccess.thecvf.com/content_CVPRW_2019/papers/NTIRE/Nah
 
 
 #### Model Zoo
-Pre-trained models are available in below link.
+Pre-trained model is available in below link.
 
-[![google-drive](https://img.shields.io/badge/Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/1L379h1XRjGC2Bwh5At9MUTbRYm0OXHiN?usp=sharing)
+[![google-drive](https://img.shields.io/badge/Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/drive/folders/1fhyFWTHJZOmawyKsbkFVa2OmttUsROn9?usp=sharing)
 
 
 ----------------------------
