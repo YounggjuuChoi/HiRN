@@ -50,49 +50,29 @@ REDS4 benchmark with fewer parameters._
 ## Getting Started
 #### Dependencies and Installation
 - Anaconda3
-- Python == 3.6
+- Python == 3.7
     ```bash
-    conda create --name gbrwnn python=3.6
+    conda create --name hirn python=3.7
     ```
 - [PyTorch](https://pytorch.org/) (NVIDIA GPU + [CUDA](https://developer.nvidia.com/cuda-downloads))
     
-    Trained on PyTorch 1.8.1 CUDA 10.2
+    Trained on PyTorch 1.12.1 (>= 1.7) CUDA 10.2
+    Run in ./
     ```bash
-    conda install pytorch==1.8.1 torchvision==0.9.1 torchaudio==0.8.1 cudatoolkit=10.2 -c pytorch
+    pip install -r requirements.txt
+    BASICSR_EXT=True python setup.py develop
     ```
-    
-- tqdm, pyyaml, tensorboard, opencv-python, lmdb
-    ```bash
-    conda install -c conda-forge tqdm pyyaml tensorboard
-    pip install opencv-python
-    pip install lmdb
-    ```
-
 
 #### Dataset Preparation
-We used [Vimeo90K](https://arxiv.org/pdf/1711.09078.pdf) dataset for training and [Vid4](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=6549107), [REDS4](https://openaccess.thecvf.com/content_CVPRW_2019/papers/NTIRE/Nah_NTIRE_2019_Challenge_on_Video_Deblurring_and_Super-Resolution_Dataset_and_CVPRW_2019_paper.pdf), [SPMCS](https://openaccess.thecvf.com/content_ICCV_2017/papers/Tao_Detail-Revealing_Deep_Video_ICCV_2017_paper.pdf), [DAVIS-2019](https://arxiv.org/pdf/1905.00737.pdf) datasets for testing.
+We used [REDS](https://openaccess.thecvf.com/content_CVPRW_2019/papers/NTIRE/Nah_NTIRE_2019_Challenge_on_Video_Deblurring_and_Super-Resolution_Dataset_and_CVPRW_2019_paper.pdf) dataset for training and [Vid4](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=6549107), [REDS4](https://openaccess.thecvf.com/content_CVPRW_2019/papers/NTIRE/Nah_NTIRE_2019_Challenge_on_Video_Deblurring_and_Super-Resolution_Dataset_and_CVPRW_2019_paper.pdf) datasets for testing.
 
-- Prepare for Vimeo90K
+- Prepare for REDS and REDS4
 
     1) Please refer to **[Dataset.md](https://github.com/YounggjuuChoi/Deep-Video-Super-Resolution/blob/master/Doc/Dataset.md)** in our **[Deep-Video-Super-Resolution](https://github.com/YounggjuuChoi/Deep-Video-Super-Resolution)** repository for more details.
-
-    2) Download dataset from the [official website](http://toflow.csail.mit.edu/).
+ 
+    2) Download dataset from the [official website](https://seungjunnah.github.io/Datasets/reds.html).
     
     3) Put the dataset in ./datasets/
- 
-    4) Generate LR data
-       
-       Run in ./codes/data_processing_scripts/
-       ```bash
-       python generate_LR_Vimeo90K.py
-       ```
-       
-    5) Generate LMDB
- 
-       Run in ./codes/data_processing_scripts/
-       ```bash
-       python generate_lmdb_Vimeo90K.py
-       ```
     
 - Prepare for Vid4
 
@@ -104,46 +84,10 @@ We used [Vimeo90K](https://arxiv.org/pdf/1711.09078.pdf) dataset for training an
  
     4) Generate LR data
 
-       Run in ./codes/data_processing_scripts/ 
+       Run in ./scripts/data_preparation/ 
 
        ```bash
        python generate_LR_Vid4.py
-       ```
-
-- Prepare for REDS4
-
-    1) Please refer to **[Dataset.md](https://github.com/YounggjuuChoi/Deep-Video-Super-Resolution/blob/master/Doc/Dataset.md)** in our **[Deep-Video-Super-Resolution](https://github.com/YounggjuuChoi/Deep-Video-Super-Resolution)** repository for more details.
- 
-    2) Download dataset from the [official website](https://seungjunnah.github.io/Datasets/reds.html).
-    
-    3) Put the dataset in ./datasets/
-
-- Prepare for SPMCS
-
-    1) Download dataset from [here](https://github.com/jiangsutx/SPMC_VideoSR).
-    
-    2) Put the dataset in ./datasets/
- 
-    3) Generate LR data
-
-       Run in ./codes/data_processing_scripts/ 
-
-       ```bash
-       python generate_LR_SPMCS.py
-       ```
-
-- Prepare for DAVIS-2019
-
-    1) Download dataset from the [official website](https://davischallenge.org/challenge2019/unsupervised.html).
-    
-    2) Put the dataset in ./datasets/
- 
-    3) Generate LR data
-
-       Run in ./codes/data_processing_scripts/ 
-
-       ```bash
-       python generate_LR_DAVIS.py
        ```
 
 
@@ -155,82 +99,60 @@ Pre-trained models are available in below link.
 
 ----------------------------
 ## Training
-Run in ./codes/
-- GBR-WNN-L
+Run in ./
 
-    Using single GPU
-    ```bash
-    python train.py -opt options/train/train_GBRWNN_L.yml
-    ```
-    Using multiple GPUs (nproc_per_node means the number of GPUs)
-    with setting CUDA_VISIBLE_DEVICES in .yml file
-    
-    For example, set 'gpu_ids: [0,1,2,3,4,5,6,7]' in .yml file for 8 GPUs 
-    
-    ```bash
-    python -m torch.distributed.launch --nproc_per_node=8 --master_port=4321 train.py -opt options/train/train_GBRWNN_L.yml --launcher pytorch
-    ```
-    
-- GBR-WNN-M
+- Using single GPU
 
-    Using single GPU
-    ```bash
-    python train.py -opt options/train/train_GBRWNN_M.yml
-    ```
-    Using multiple GPUs (nproc_per_node means the number of GPUs)
-    with setting CUDA_VISIBLE_DEVICES in .yml file
-    
-    For example, set 'gpu_ids: [0,1,2,3,4,5,6,7]' in .yml file for 8 GPUs 
-    
-    ```bash
-    python -m torch.distributed.launch --nproc_per_node=8 --master_port=4321 train.py -opt options/train/train_GBRWNN_M.yml --launcher pytorch
-    ```
+  ```bash
+  python basicsr/train.py -opt options/train/HiRN/train_HiRN_REDS.yml
+  ```
 
-- GBR-WNN-S
-
-    Using single GPU
-    ```bash
-    python train.py -opt options/train/train_GBRWNN_S.yml
-    ```
-    Using multiple GPUs (nproc_per_node means the number of GPUs)
-    with setting CUDA_VISIBLE_DEVICES in .yml file
-    
-    For example, set 'gpu_ids: [0,1,2,3,4,5,6,7]' in .yml file for 8 GPUs 
-    
-    ```bash
-    python -m torch.distributed.launch --nproc_per_node=8 --master_port=4321 train.py -opt options/train/train_GBRWNN_S.yml --launcher pytorch
-    ```
+- Using multiple GPUs
+     
+  For example, for 4 GPUs, 
+  
+  ```bash
+  CUDA_VISIBLE_DEVICES=0,1,2,3 ./scripts/dist_train.sh 4 options/train/HiRN/train_HiRN_REDS.yml
+  ```
 
 ----------------------------
 ## Testing
-Run in ./codes/
+Run in ./
 
-```bash
-python test.py
-```
+- Using single GPU
 
-You can test the GBR-WNN-L, GBR-WNN-M, GBR-WNN-S models under Vid4, REDS4, SPMCS, DAVIS-2019 test datasets by modifying the _'model_mode'_ and _'data_mode'_ in source code.
+  ```bash
+  python basicsr/test.py -opt options/test/HiRN/test_HiRN_REDS.yml
+  ```
+  ```bash
+  python basicsr/test.py -opt options/test/HiRN/test_HiRN_Vid4.yml
+  ```
+
+- Using multiple GPUs
+     
+  For example, for 4 GPUs, 
+  
+  ```bash
+  CUDA_VISIBLE_DEVICES=0,1,2,3 ./scripts/dist_test.sh 4 options/test/HiRN/test_HiRN_REDS.yml
+  ```
+  ```bash
+  CUDA_VISIBLE_DEVICES=0,1,2,3 ./scripts/dist_test.sh 4 options/test/HiRN/test_HiRN_Vid4.yml
+  ```
     
 ----------------------------
 ## Citation
-    @article{choi2022group,
-      title={Group-based bi-directional recurrent wavelet neural network for efficient video super-resolution (VSR)},
-      author={Choi, Young-Ju and Lee, Young-Woon and Kim, Byung-Gyu},
-      journal={Pattern Recognition Letters},
-      volume={164},
-      pages={246--253},
-      year={2022},
+    @article{choi2023hirn,
+      title={HiRN: Hierarchical recurrent neural network for video super-resolution (VSR) Using two-stage feature evolution},
+      author={Choi, Young-Ju and Kim, Byung-Gyu},
+      journal={Applied Soft Computing},
+      pages={110422},
+      year={2023},
       publisher={Elsevier}
     }
     
 ----------------------------
 ## Acknowledgement
-The codes are heavily based on [EDVR](https://github.com/xinntao/EDVR) and [BasicSR](https://github.com/XPixelGroup/BasicSR). Thanks for their awesome works.
-
-```bash
-EDVR : 
-Wang, Xintao, et al. "Edvr: Video restoration with enhanced deformable convolutional networks." Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops. 2019.
-```
+The codes are heavily based on [BasicSR](https://github.com/XPixelGroup/BasicSR). Thanks for their awesome works.
 
 ```bash
 BasicSR :
