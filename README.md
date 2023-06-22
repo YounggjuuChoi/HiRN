@@ -1,14 +1,31 @@
-# Group-based Bi-Directional Recurrent Wavelet Neural Network for Efficient Video Super-Resolution (VSR)
-#### Young-Ju Choi, Young-Woon Lee, and Byung-Gyu Kim
+# HiRN: Hierarchical Recurrent Neural Network for Video Super-Resolution (VSR) using Two-Stage Feature Evolution
+#### Young-Ju Choi and Byung-Gyu Kim
 #### Intelligent Vision Processing Lab. (IVPL), Sookmyung Women's University, Seoul, Republic of Korea
 ----------------------------
-#### This repository is the official PyTorch implementation of the paper published in _Pattern Recognition Letters (Elsevier)_.
-[![paper](https://img.shields.io/badge/paper-PDF-<COLOR>.svg)](https://www.sciencedirect.com/science/article/pii/S0167865522003440)
+#### This repository is the official PyTorch implementation of the paper published in _Applied Soft Computing (Elsevier)_.
+[![paper](https://img.shields.io/badge/paper-PDF-<COLOR>.svg)](https://www.sciencedirect.com/science/article/pii/S1568494623004404)
 
 ----------------------------
 ## Summary of paper
 #### Abstract
-> _Video super-resolution (VSR) is an important technology for enhancing the quality of video frames. The recurrent neural network (RNN)-based approach is suitable for sequential data because it can use accu- mulated temporal information. However, since existing methods only tend to capture slow and symmet- rical motion with low frame rate, there are still limitations to restore the missing details for more dy- namic motion. Most of the previous methods using spatial information treat different types of the spatial features identically. It leads to lack of obtaining meaningful information and enhancing the fine details. We propose a group-based bi-directional recurrent wavelet neural network (GBR-WNN) to exploit spatio- temporal information effectively. The proposed group-based bi-directional RNN (GBR) framework is built on the well-structured process with the group of pictures (GOP). In a GOP, we resolves the low-resolution (LR) frames from border frames to center target frame. Because super-resolved features in a GOP are cu- mulative, neighboring features are improved progressively and asymmetrical motion can be dealt with. Also, we propose a temporal wavelet attention (TWA) adopting attention module for both spatial and temporal features simultaneously based on discrete wavelet transform. Experiments show that the pro- posed scheme achieves superior performance compared with state-of-the-art methods._
+> _The aim of video super-resolution (VSR) is generate the high-resolution (HR) frames from their lowresolution
+(LR) counterparts. As one of the fundamental module of VSR, propagation process provides
+the path of feature map and specifies how the feature map is leveraged. In the recurrent propagation,
+the latent features can be propagated and aggregated. Therefore, adopting the recurrent strategy can
+resolve the limitation of sliding-window-based local propagation. Recently, bi-directional recurrent
+propagation-based latest methods have achieved powerful performance in VSR. However, existing
+bi-directional frameworks have structured by combining forward and backward branches. These
+structures cannot propagate and aggregate previous and future latent features of current branch. In this
+study, we suggest the hierarchical recurrent neural network (HiRN) based on feature evolution. The
+proposed HiRN is designed based on the hierarchical recurrent propagation and residual block-based
+backbone with temporal wavelet attention (TWA) module. The hierarchical recurrent propagation
+consists of two stages to combine advantages of low frame rate-based forward and backward schemes,
+and multi-frame rate-based bi-directional access structure. The proposed methods are compared with
+state-of-the-art (SOTA) methods on the benchmark datasets. Experiments show that the proposed
+scheme achieves superior performance compared with SOTA methods. In particular, the proposed
+HiRN achieves better performance than all compared methods in terms of SSIM on Vid4 benchmark.
+In addition, the proposed HiRN surpasses the existing GBR-WNN by a significant 3.03 dB in PSNR on
+REDS4 benchmark with fewer parameters._
 >
 
 #### Network Architecture
@@ -26,11 +43,7 @@
 </p>
 
 <p align="center">
-  <img width="500" src="./images/img4.PNG">
-</p>
-
-<p align="center">
-  <img width="500" src="./images/img5.PNG">
+  <img width="900" src="./images/img4.PNG">
 </p>
 
 ----------------------------
